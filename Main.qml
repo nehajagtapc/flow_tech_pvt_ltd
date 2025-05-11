@@ -16,8 +16,8 @@ ApplicationWindow {
     }
 
     Loader {
-        id: mainScreenLoader
-        source: "MainScreen.qml"
+        id: dashboardLoader
+        source: "Dashboard.qml"
         anchors.fill: parent
         visible: false  // Hide initially
     }

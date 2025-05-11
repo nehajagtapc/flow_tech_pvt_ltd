@@ -28,6 +28,10 @@ qt_add_qml_module(appflow_tech_project
     RESOURCES
         images/flowtech_logo.png
         QML_FILES Loginpage.qml
+        QML_FILES Dashboard.qml
+        QML_FILES GasScreen.qml
+        SOURCES WE_Gas.hpp
+        SOURCES WE_Gas.cpp
 )
 
 set_target_properties(appflow_tech_project PROPERTIES

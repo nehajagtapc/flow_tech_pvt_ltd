@@ -6,7 +6,7 @@ Rectangle {
     id: mainScreen
     width: 640
     height: 480
-    color: "#f0f0f0"
+    color: "#e0f7fa"
 
     property double float_density : 0.0
 
@@ -66,7 +66,7 @@ Rectangle {
             Label {
                 text: "Operating Pressure:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter: operatingPressureInput.verticalCenter
                 width: 180
             }
@@ -102,7 +102,7 @@ Rectangle {
             Label {
                 text: "Operating Temperature:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter: opTempInput.verticalCenter
                 width: 180
             }
@@ -138,7 +138,7 @@ Rectangle {
             Label {
                 text: "Viscosity of Liquid:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter: viscosityInput.verticalCenter
                 width: 180
             }
@@ -174,7 +174,7 @@ Rectangle {
             Label {
                 text: "Line Size:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter: lineSizeInput.verticalCenter
                 width: 180
             }
@@ -210,7 +210,7 @@ Rectangle {
             Label {
                 text: "Liquid Density:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
        anchors.verticalCenter: densityLiquidInput.verticalCenter
                 width: 180
             }
@@ -247,7 +247,7 @@ Rectangle {
             Label {
                 text: "Maximum Flow:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter: maxFlowInput.verticalCenter
                 width: 180
             }
@@ -286,10 +286,13 @@ Rectangle {
             Label {
                 text: "Float Material:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 anchors.verticalCenter : float_material.verticalCenter
                 width: 180
             }
+
+
+
 
             ComboBox {
                 id: float_material
@@ -298,16 +301,22 @@ Rectangle {
                 width: 250
                 height: 40
                 onCurrentTextChanged: {
+                    console.log("Selected Material:", currentText); // Print selected material
                     if (currentText === "Loaded Teflon") {
                         weightOfFloatInput.visible = true;
                         weightOfWaterInput.visible = true;
                     } else {
-                        float_density = currentText === "SS-316" || currentText === "SS-304" ? 8.02
-                                      : currentText === "PTFE(Teflon)" ? 2.55
-                                      : 2.21; // Aluminium
+                        if (currentText === "SS-316" || currentText === "SS-304") {
+                            float_density = 8.02;
+                        } else if (currentText === "PTFE(Teflon)") {
+                            float_density = 2.55;
+                        } else if (currentText === "Aluminium") {
+                            float_density = 2.21;
+                        }
                         weightOfFloatInput.visible = false;
                         weightOfWaterInput.visible = false;
                     }
+                    console.log("Updated Float Density:", float_density); // Print updated density
                 }
             }
         }
@@ -321,7 +330,7 @@ Rectangle {
             Label {
                 text: "Weight of Float:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 verticalAlignment: Text.AlignVCenter
                 width: 180
             }
@@ -361,7 +370,7 @@ Rectangle {
             Label {
                 text: "Weight of Water:"
                 font.pixelSize: 16
-                color: "#555"
+                color: "black"
                 verticalAlignment: Text.AlignVCenter
                 width: 180
             }
@@ -391,6 +400,8 @@ Rectangle {
             }
         }
 
+
+
         // Submit Button
         // Submit and Refresh Buttons
         Row {
@@ -418,83 +429,34 @@ Rectangle {
                         if (maxFlowInput.text === "" || densityLiquidInput.text === "" ||
                             weightOfWaterInput.text === "" || weightOfFloatInput.text === "") {
                             resultLabel.text = "All fields are required!";
-                        } else {
+                            tubeBodyLabel.text = "";
+                        }
 
-                            if(density_unit.currentText == "gram/cc")
-                            {
-                                if(maxFlowUnit.currentText == "Kg/Hr")
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), (parseFloat(densityLiquidInput.text)/1000), float_density);
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
+                        else
+                        {
 
-                                else if(maxFlowUnit.currentText == "m3/Hr")
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq((parseFloat(maxFlowInput.text)*1000), (parseFloat(densityLiquidInput.text)/1000), float_density);
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
-
-                                else
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), (parseFloat(densityLiquidInput.text)/1000), float_density);
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
-
-
-                            }
-
-                            else
-                            {
-                                if(maxFlowUnit.currentText == "Kg/Hr")
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), parseFloat(densityLiquidInput.text), float_density);
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
-
-                                else if(maxFlowUnit.currentText == "m3/Hr")
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq((parseFloat(maxFlowInput.text)*1000), parseFloat(densityLiquidInput.text), float_density);
-                                    console.log("Here");
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
-
-                                else
-                                {
-                                    float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
-                                    var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), parseFloat(densityLiquidInput.text), float_density);
-                                    resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                                }
-                            }
-
+                            float_density = waterEqInstance.getfloatDensity(parseFloat(weightOfFloatInput.text), parseFloat(weightOfWaterInput.text));
+                            var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text)   , parseFloat(densityLiquidInput.text), float_density , maxFlowUnit.currentText , density_unit.currentText);
+                            resultLabel.text = "Water Equivalent: " + result.toFixed(6);
+                            // ✅ Call the C++ function here
+                            //tubeBodyLabel.text = waterEqInstance.getTubeBodyInfo(result);
+                            tubeBodyLabel.text = waterEqInstance.getTubeBodyInfo(result, float_material.currentText);
 
                         }
+
+
                     } else {
                         if (maxFlowInput.text === "" || densityLiquidInput.text === "") {
                             resultLabel.text = "All fields are required!";
+                            tubeBodyLabel.text = "";
                         } else {
+                            console.log("Here222")
+                            var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), parseFloat(densityLiquidInput.text), float_density , maxFlowUnit.currentText , density_unit.currentText);
+                            resultLabel.text = "Water Equivalent: " + result.toFixed(6);
+                            // ✅ Call the C++ function here too
+                            //tubeBodyLabel.text = waterEqInstance.getTubeBodyInfo(result);
+                            tubeBodyLabel.text = waterEqInstance.getTubeBodyInfo(result, float_material.currentText);
 
-                            if(maxFlowUnit.currentText == "Kg/Hr")
-                            {
-                                var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text)*parseFloat(densityLiquidInput.text), parseFloat(densityLiquidInput.text), float_density);
-                                resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                            }
-
-                            else if(maxFlowUnit.currentText == "m3/Hr")
-                            {
-                                var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text)*1000, parseFloat(densityLiquidInput.text), float_density);
-                                resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                            }
-
-                            else
-                            {
-                                var result = waterEqInstance.getWaterEq(parseFloat(maxFlowInput.text), parseFloat(densityLiquidInput.text), float_density);
-                                resultLabel.text = "Water Equivalent: " + result.toFixed(6);
-                            }
 
                         }
                     }
@@ -541,14 +503,23 @@ Rectangle {
             }
         }
 
-
         // Result Label
         Label {
             id: resultLabel
             font.pixelSize: 18
-            color: "#555"
+            color: "black"
             padding: 10
             anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Text {
+            id: tubeBodyLabel
+            text: ""
+            color: "black"
+            font.pixelSize: 16
+            anchors.topMargin: 8
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.Wrap
         }
     }
 }

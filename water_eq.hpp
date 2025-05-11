@@ -6,17 +6,28 @@
 #include <iostream>
 #include <iomanip>
 
+struct TubeBodyInfo {
+    QString tube;
+    QString body;
+};
+
 class WaterEq : public QObject
 {
     Q_OBJECT
 public:
     explicit WaterEq(QObject *parent = nullptr);
 
-    Q_INVOKABLE double getWaterEq(double maxFlow, double densityLiquid, double densityFloat);
+  //  Q_INVOKABLE double getWaterEq(double maxFlow, double densityLiquid, double densityFloat,QString flow_unit , QString densityL_unit,QString densityF_unit);
+    Q_INVOKABLE double getWaterEq(double maxFlow, double densityLiquid, double densityFloat, QString flow_unit , QString densityL_unit);
+
     Q_INVOKABLE double getfloatDensity(double float_weight , double water_weight);
     Q_INVOKABLE bool setPrecision(int value);
+    //Q_INVOKABLE QString getTubeBodyInfo(double waterEq);
+    Q_INVOKABLE QString getTubeBodyInfo(double waterEq, const QString &material);
+
 
     Q_INVOKABLE bool checkCredentials(const QString &username, const QString &password);
+
 
 
 signals:

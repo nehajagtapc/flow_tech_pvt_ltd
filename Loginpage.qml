@@ -47,7 +47,8 @@ Rectangle {
             if (valid) {
                 console.log("Login successful")
                 loginPage.visible = false  // Hide the login page
-                mainScreenLoader.visible = true  // Show the main screen
+                dashboardLoader.visible = true
+                mainScreenLoader.visible = true
             } else {
                 errorLabel.text = "Invalid credentials. Please try again."
                 errorLabel.visible = true  // Show the error message
