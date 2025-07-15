@@ -152,5 +152,24 @@ Rectangle {
                 waterEq.checkCredentials(usernameField.text, passwordField.text)
             }
         }
+
+        Text {
+            text: "Forgot Password?"
+            color: "#1976d2"
+            font.pixelSize: 16
+            font.underline: true
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    loginScreen.visible = false
+                    forgotPageLoader.visible = true  // ✅ Make sure you set visible = true
+                    forgotPageLoader.active = true
+                }
+            }
+        }
+
     }
 }

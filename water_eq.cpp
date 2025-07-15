@@ -88,6 +88,20 @@ bool WaterEq::checkCredentials(const QString &username, const QString &password)
     return valid;
 }
 
+void WaterEq::resetPassword(const QString &username, const QString &question,
+                            const QString &answer, const QString &newPassword)
+{
+    if (username == validUsername &&
+        question == securityQuestion &&
+        answer.trimmed() == securityAnswer) {
+
+        validPassword = newPassword;
+        emit passwordResetResult(true, "Password updated successfully.");
+    } else {
+        emit passwordResetResult(false, "Incorrect answer to the security question.");
+    }
+}
+
 QString WaterEq::getTubeBodyInfo(double waterEq, const QString &material)
 {
     struct Range {
@@ -106,12 +120,12 @@ QString WaterEq::getTubeBodyInfo(double waterEq, const QString &material)
             {10, 100, "PG-3", "30 dia"},
             {16, 160, "PG-4", "38 dia"},
             {25, 250, "PG-5", "38 dia"},
-            {40, 400, "PG-6", "43 dia"},
-            {60, 600, "PG-7", "57 dia"},
+            {40, 400, "PG-6", "38 dia"},
+            {60, 600, "PG-7", "43 dia"},
             {60, 600, "PG-8", "57 dia"},
             {100, 1000, "PG-9", "57 dia"},
             {160, 1600, "PG-10", "57 dia"},
-            {250, 2500, "PG-11", "72 dia"},
+            {250, 2500, "PG-11", "57 dia"},
             {400, 4000, "PG-14", "72 dia"},
             {600, 6000, "PG-16", "96 dia"},
             {1000, 10000, "PG-17", "102 dia"},
@@ -132,8 +146,8 @@ QString WaterEq::getTubeBodyInfo(double waterEq, const QString &material)
             {64, 640, "PG-10", "57 dia"},
             {100, 1000, "PG-11", "57 dia"},
             {160, 1600, "PG-14", "72 dia"},
-            {250, 2500, "PG-16", "72 dia"},
-            {400, 4000, "PG-17", "96 dia"},
+            {250, 2500, "PG-16", "96 dia"},
+            {400, 4000, "PG-17", "102 dia"},
             {800, 8000, "PG-17", "102 dia"},
             {1200, 12000, "PG-17", "102 dia"}
         };

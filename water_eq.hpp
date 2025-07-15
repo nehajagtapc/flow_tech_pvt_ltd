@@ -26,16 +26,24 @@ public:
     Q_INVOKABLE QString getTubeBodyInfo(double waterEq, const QString &material);
 
 
+
     Q_INVOKABLE bool checkCredentials(const QString &username, const QString &password);
+
+    Q_INVOKABLE void resetPassword(const QString &username, const QString &question,
+                                   const QString &answer, const QString &newPassword);
+
 
 
 
 signals:
     void credentialsChecked(bool valid);  // Signal to notify when the credentials are checked
+    void passwordResetResult(bool success, const QString &message);
 
 private:
     QString validUsername = "admin";  // Hardcoded valid username
     QString validPassword = "password123";  // Hardcoded valid password
+    QString securityQuestion = "What is your lucky number?";
+    QString securityAnswer = "7";
 
 private:
     int precision{3};

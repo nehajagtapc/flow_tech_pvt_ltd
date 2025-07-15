@@ -13,6 +13,11 @@ public:
 
     Q_INVOKABLE double findKF(double p2, double t2, double gas_den);
     Q_INVOKABLE double getWE(double kg_per_hr, double kf, double gas_den);
+    Q_INVOKABLE double getWEFromCubicMeter(double m3_per_hr, double kf);
+    Q_INVOKABLE double getWEFromNormalCubicMeter(double nm3_per_hr, double kf);
+    Q_INVOKABLE double getWEFromCFH(double cfh, double kf);
+
+    Q_INVOKABLE QString getTubeBodyInfo(double waterEq, const QString &material);
 
 private:
     double p1{1.032};           // Pressure in kg/cm²

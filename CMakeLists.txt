@@ -32,6 +32,7 @@ qt_add_qml_module(appflow_tech_project
         QML_FILES GasScreen.qml
         SOURCES WE_Gas.hpp
         SOURCES WE_Gas.cpp
+        QML_FILES ForgotPasswordPage.qml
 )
 
 set_target_properties(appflow_tech_project PROPERTIES
